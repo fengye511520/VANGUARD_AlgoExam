@@ -107,7 +107,7 @@ static Token tokens[65536/2] = {};
 static int nr_token = 0;
 static const int TOKEN_CAPACITY = ARRLEN(tokens);
 static bool eval_ok = true;
-
+//编译失败，token无查询，但是不知道它来源于何处
 /*
  * 将输入的表达式字符串转换成 tokens 数组。
  *
