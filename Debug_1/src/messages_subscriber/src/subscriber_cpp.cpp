@@ -8,7 +8,7 @@ public:
   {
     // 使用 lambda 表达式替代 std::bind，避免函数重载解析问题
     subscription_ = this->create_subscription<messages_cpp::msg::ItemInfo>(
-        "item_info", 10,
+        "item_info_subscriber", 10,
       [this](const messages_cpp::msg::ItemInfo::SharedPtr msg) {
         this->topic_callback(msg);
         });
@@ -30,10 +30,10 @@ private:
   rclcpp::Subscription<messages_cpp::msg::ItemInfo>::SharedPtr subscription_;
 };
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
   rclcpp::init(argc, argv);
-  auto node = std::make_shared<ItemInfoSubscriber>();
+  auto node = std::make_shared<ItemInfoSubscriber>("item_info_subscriber");
   rclcpp::spin(node);
   rclcpp::shutdown();
   return 0;

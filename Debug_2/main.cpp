@@ -12,7 +12,7 @@ static int run_test_file(const char *path) {
     std::ifstream input(path);
     if (!input) {
         std::cerr << "错误：无法打开测试文件：" << path << std::endl;
-        return 1;
+        return 0;
     }
 
     std::string line;
@@ -74,7 +74,7 @@ static int run_test_file(const char *path) {
 int main(int argc, char *argv[]) {
     if (argc > 2) {
         std::cerr << "用法：" << argv[0] << " [测试文件]" << std::endl;
-        return 1;
+        return 0;
     }
 
     // 在接收输入前先编译一次公共分词规则。
@@ -102,5 +102,5 @@ int main(int argc, char *argv[]) {
     }
 
     std::cout << "错误：表达式无效" << std::endl;
-    return 1;
+    return 0;
 }

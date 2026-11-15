@@ -89,11 +89,10 @@ void init_regex() {     // regex 是一个正则表达式的库 【这里不考�
 }
 
 /*
- * 一个 token 就是表达式中一个有意义的小单元。
+ * 一个 toke_subscribern 就是表达式中一个有意义的小单元。
  * type 表示它是数字、运算符还是括号；str 保存对应的字符串表示，方便调试时直接打印 token 内容。
  * 例如“123+4”会得到：
  *   {TK_NUM, "123"}, {'+', "+"}, {TK_NUM, "4"}
- */
 typedef struct token {
   int type;
   char str[32];

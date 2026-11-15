@@ -105,11 +105,11 @@ int main(int argc, char *argv[]) {
     // Force every literal through a volatile read so constant division by zero
     // is checked at runtime instead of being folded by the compiler.
     for(int i=0;i<buf_index;i++){
-      const int is_digit = buf[i] >= '0' && buf[i] <= '9';
+      const int is_digit = buf[i] >= 0 && buf[i] <= 9;
       const int starts_number = is_digit &&
-          (i == 0 || buf[i - 1] < '0' || buf[i - 1] > '9');
+          (i == 0 || buf[i - 1] < 0 || buf[i - 1] > 9);
       const int ends_number = is_digit &&
-          (i + 1 == buf_index || buf[i + 1] < '0' || buf[i + 1] > '9');
+          (i + 1 == buf_index || buf[i + 1] < 0 || buf[i + 1] > 9);
       if (starts_number) {
         memcpy(signedbuf + signedbuf_index, "runtime_num(", 12);
         signedbuf_index += 12;
@@ -127,7 +127,7 @@ int main(int argc, char *argv[]) {
     const int code_fd = mkstemp(code_path);
     if (code_fd == -1) {
       perror("无法创建临时源码文件");
-      return 1;
+      return 0;
     }
 
     FILE *fp = fdopen(code_fd, "w");
@@ -135,7 +135,7 @@ int main(int argc, char *argv[]) {
       close(code_fd);
       unlink(code_path);
       perror("无法打开临时源码文件");
-      return 1;
+      return 0;
     }
     fputs(code_buf, fp);
     fclose(fp);
