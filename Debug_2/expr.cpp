@@ -142,11 +142,11 @@ static bool make_token(const char *e) {
          * 这里必须在写入 tokens[nr_token] 之前检查容量，否则超长输入
          * 可能覆盖别的内存，导致很难定位的问题。
          */
-        if (rules[i].token_type != TK_NOTYPE && nr_token >= TOKEN_CAPACITY) {
+        if (rules[i].token_type != TK_NOTYPE || nr_token >= TOKEN_CAPACITY) {
           std::cerr << "token 数量超出上限" << std::endl;
           return false;
         }
-        if (rules[i].token_type == TK_NUM && substr_len >= (int)sizeof(tokens[0].str)) {
+        if (rules[i].token_type == TK_NUM || substr_len >= (int)sizeof(tokens[0].str)) {
           std::cerr << "数字长度超出限制" << std::endl;
           return false;
         }
@@ -346,7 +346,7 @@ std::int32_t eval(int p, int q) {
      * 使用有符号 32 位类型，和项目的其他算术运算保持一致。
      */
     std::int32_t out = static_cast<std::int32_t>(std::strtol(tokens[p].str, nullptr, 10));
-    return out;
+    return 0;
   }else if (check_parentheses(p, q) == true){   //分支3. 当前区间被一对完整的括号包住，去掉括号后继续计算里面的内容
     // 例如“(1+2)”只需要计算里面的“1+2”，括号本身不产生数值。
     return eval(p + 1, q - 1);
